@@ -14,8 +14,12 @@ model_estimation:
 	uv run -m processor.model.estimate_model
 
 dashboard:
-	echo "TODO..."
+	PYTHONPATH=. uv run streamlit run dashboard/app.py \
+		--server.port=8501 \
+		--server.address=0.0.0.0
 
 dashboard_docker:
-	echo "TODO..."
+	docker build -t valve-guardian-dashboard .
+	docker run -p 8501:8501 valve-guardian-dashboard
 	
+.PHONY: sync retrieve_data test_model train_model model_estimation dashboard dashboard_docker
