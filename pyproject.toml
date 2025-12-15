@@ -12,6 +12,6 @@ dependencies = [
     "isort",
     "requests",
     "mlflow",
-    "torch",
+    # "torch",
     "xgboost",
 ]

@@ -1,8 +1,12 @@
 from typing import Optional
-import numpy as np
-from .constants import MODEL_PATH, FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES
-from data.build_dataset import build_X
+
 import joblib
+import numpy as np
+
+from data.build_dataset import build_X
+
+from .constants import (FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES,
+                        MODEL_PATH)
 
 
 class Predictor:
@@ -19,8 +23,13 @@ class Predictor:
         :param fs1: np.ndarray, shape (n_samples, n_timesteps)
         :return: list of bool, predictions for each sample
         """
-        X = build_X(ps2, fs1, feature_order=FEATURE_ORDER,
-                    fft_feature=FFT_FEATURE_ENABLED, k_fft_features=K_FFT_FEATURES)
+        X = build_X(
+            ps2,
+            fs1,
+            feature_order=FEATURE_ORDER,
+            fft_feature=FFT_FEATURE_ENABLED,
+            k_fft_features=K_FFT_FEATURES,
+        )
         predictions = self.model.predict(X)
         return predictions.tolist()
 
@@ -33,10 +42,13 @@ class Predictor:
         """
         ps2_reshaped = ps2.reshape(1, -1)
         fs1_reshaped = fs1.reshape(1, -1)
-        X = build_X(ps2_reshaped, fs1_reshaped,
-                    feature_order=FEATURE_ORDER,
-                    fft_feature=FFT_FEATURE_ENABLED,
-                    k_fft_features=K_FFT_FEATURES)
+        X = build_X(
+            ps2_reshaped,
+            fs1_reshaped,
+            feature_order=FEATURE_ORDER,
+            fft_feature=FFT_FEATURE_ENABLED,
+            k_fft_features=K_FFT_FEATURES,
+        )
         prediction = self.model.predict(X)
         return bool(prediction[0])
 

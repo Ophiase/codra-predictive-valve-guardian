@@ -1,6 +1,5 @@
 from pathlib import Path
 
-
 MODEL_PATH = Path("model/cached/model.pkl")
 
 FEATURE_ORDER = 0

@@ -1,13 +1,17 @@
-from model.predictor import Predictor
-from model.constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES
-from data.build_dataset import build_dataset
-import numpy as np
 import joblib
+import numpy as np
+
+from data.build_dataset import build_dataset
+from model.constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES
+from model.predictor import Predictor
 
 
 def test_predictor() -> None:
-    X, y = build_dataset(feature_order=FEATURE_ORDER,
-                         fft_feature=FFT_FEATURE_ENABLED, k_fft_features=K_FFT_FEATURES)
+    X, y = build_dataset(
+        feature_order=FEATURE_ORDER,
+        fft_feature=FFT_FEATURE_ENABLED,
+        k_fft_features=K_FFT_FEATURES,
+    )
     predictor = Predictor()
 
     y_pred = predictor.predict_batch(X)

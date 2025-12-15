@@ -23,15 +23,15 @@ def simple_features(signal: np.ndarray) -> np.ndarray:
     q10 = np.quantile(signal, 0.1, axis=1)
     q90 = np.quantile(signal, 0.9, axis=1)
     energy = np.sum(signal**2, axis=1)
-    features = np.stack(
-        [mean, std, minimum, maximum, q10, q90, energy], axis=1)
+    features = np.stack([mean, std, minimum, maximum, q10, q90, energy], axis=1)
     return features
 
 
 def extract_features(
-        signal: np.ndarray, order: int,
-        fft_feature: bool,
-        k_fft_features: int = K_FFT_FEATURES
+    signal: np.ndarray,
+    order: int,
+    fft_feature: bool,
+    k_fft_features: int = K_FFT_FEATURES,
 ) -> np.ndarray:
     if order > 2 or order < 0:
         raise ValueError("Order must be 0, 1, or 2")
@@ -53,11 +53,12 @@ def extract_features(
 
 
 def build_X(
-        ps2: np.ndarray,
-        fs1: np.ndarray,
-        feature_order: int,
-        fft_feature: bool,
-        k_fft_features: int = K_FFT_FEATURES) -> np.ndarray:
+    ps2: np.ndarray,
+    fs1: np.ndarray,
+    feature_order: int,
+    fft_feature: bool,
+    k_fft_features: int = K_FFT_FEATURES,
+) -> np.ndarray:
     X_ps2 = extract_features(ps2, feature_order, fft_feature, k_fft_features)
     X_fs1 = extract_features(fs1, feature_order, fft_feature, k_fft_features)
     X = np.hstack([X_ps2, X_fs1])
@@ -75,7 +76,7 @@ def build_raw_dataset():
     Outputs:
         X: Features
         y: Labels
-   """
+    """
     ps2 = load_signal(PS2_PATH)
     fs1 = load_signal(FS1_PATH)
     profile = load_profile(PROFILE_PATH)
@@ -86,7 +87,11 @@ def build_raw_dataset():
     return X, y
 
 
-def build_dataset(feature_order: int = 2, fft_feature: bool = False, k_fft_features: int = K_FFT_FEATURES):
+def build_dataset(
+    feature_order: int = 2,
+    fft_feature: bool = False,
+    k_fft_features: int = K_FFT_FEATURES,
+):
     """
     Build dataset for training and testing.
     Outputs:
