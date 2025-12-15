@@ -17,7 +17,7 @@ make sync
 
 ```bash
 # Launch dashboard
-make dashboard_
+make dashboard
 # Launch dashboard with docker
 make dashboard_docker
 ```
