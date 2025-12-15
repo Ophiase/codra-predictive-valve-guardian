@@ -4,9 +4,21 @@ This repository contains code to predict the valve condition of a hydraulic syst
 
 ## Quickstart
 
-```
-uv sync
-uv run main.py
+```bash
+# (Optional) uv sync
+make sync
+
+# Retrieve the data
+make retrieve_data
+
+# (Optional) Retrain the model
+make train_model
+
+# Test the model
+make test_model
+
+# Verify model estimation
+make model_estimation
 ```
 
 ## Problem Statement:
