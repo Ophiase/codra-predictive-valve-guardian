@@ -1,8 +1,8 @@
 import joblib
 import xgboost as xgb
 
-from data.build_dataset import build_dataset, split_dataset
-from model.constants import (FEATURE_ORDER, FFT_FEATURE_ENABLED,
+from ..data.build_dataset import build_dataset, split_dataset
+from ..model.constants import (FEATURE_ORDER, FFT_FEATURE_ENABLED,
                              K_FFT_FEATURES, MODEL_PATH)
 
 

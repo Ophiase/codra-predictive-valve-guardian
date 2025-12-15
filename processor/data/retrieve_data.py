@@ -3,7 +3,7 @@ from pathlib import Path
 
 import requests
 
-from data.constants import DATA_CACHE_PATH, DATA_HYDROLIC_PATH, DATA_URL
+from .constants import DATA_CACHE_PATH, DATA_HYDROLIC_PATH, DATA_URL
 
 
 def download_data(url: str, destination: Path):

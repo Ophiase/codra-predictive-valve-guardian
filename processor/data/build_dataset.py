@@ -2,7 +2,7 @@ from pathlib import Path
 
 import numpy as np
 
-from model.constants import K_FFT_FEATURES
+from ..model.constants import K_FFT_FEATURES
 
 from .constants import FS1_PATH, PROFILE_PATH, PS2_PATH, TRAINING_LIMIT
 

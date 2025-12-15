@@ -4,10 +4,27 @@ This repository contains code to predict the valve condition of a hydraulic syst
 
 ## Quickstart
 
+### Setup Environment
+
+Install: Docker or directly the uv package manager.
+
 ```bash
 # (Optional) uv sync
 make sync
+```
 
+### Dashboard
+
+```bash
+# Launch dashboard
+make dashboard_
+# Launch dashboard with docker
+make dashboard_docker
+```
+
+### Play with Processor
+
+```bash
 # Retrieve the data
 make retrieve_data
 

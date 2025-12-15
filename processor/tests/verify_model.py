@@ -1,9 +1,9 @@
 import joblib
 import numpy as np
 
-from data.build_dataset import build_dataset
-from model.constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES
-from model.predictor import Predictor
+from ..data.build_dataset import build_dataset
+from ..model.constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES
+from ..model.predictor import Predictor
 
 
 def test_predictor() -> None:

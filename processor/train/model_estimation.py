@@ -7,8 +7,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score
 
-from data.build_dataset import build_dataset, build_raw_dataset, split_dataset
-from model.constants import K_FFT_FEATURES
+from ..data.build_dataset import build_dataset, build_raw_dataset, split_dataset
+from ..model.constants import K_FFT_FEATURES
 
 configs = [
     {"X": "raw", "feature_order": 0, "fft": False},
