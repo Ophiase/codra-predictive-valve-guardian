@@ -81,23 +81,9 @@ I will try the following models:
   - If will try those approeach only if the classical models don't work well enough.
     - $\implies$ Finally it was not necessary.
 
-Result:
+### Result
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
