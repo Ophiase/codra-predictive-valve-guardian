@@ -4,73 +4,144 @@ import streamlit as st
 
 from processor.model.predictor import Predictor
 
-
-st.set_page_config(
-    page_title="Predictive Valve Guardian",
-    layout="wide"
-)
-
-st.title("Predictive Valve Guardian")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    ps2_file = st.file_uploader(
-        "Upload PS2 signal", type=["txt", "csv", "tsv"])
-
-with col2:
-    fs1_file = st.file_uploader(
-        "Upload FS1 signal", type=["txt", "csv", "tsv"])
+st.set_page_config(page_title="Predictive Valve Guardian", layout="wide")
 
 
-def load_array(file) -> np.ndarray:
+def clear_predictions():
+    """Clear predictions from session state when new files are uploaded."""
+    if "predictions" in st.session_state:
+        del st.session_state["predictions"]
+
+
+@st.cache_data
+def load_data(file) -> np.ndarray:
+    """Load data from uploaded file."""
     return np.loadtxt(file)
 
 
-if ps2_file and fs1_file:
-    ps2 = load_array(ps2_file)
-    fs1 = load_array(fs1_file)
+def plot_cycle(
+    ps2_cycle: np.ndarray,
+    fs1_cycle: np.ndarray,
+    cycle_idx: int,
+    prediction: bool = None,
+):
+    """Plot PS2 and FS1 signals for a specific cycle."""
+    st.markdown(f"### Cycle {cycle_idx}")
 
-    if ps2.shape[0] != fs1.shape[0]:
-        st.error("PS2 and FS1 must have the same number of cycles")
-        st.stop()
+    if prediction is not None:
+        status = "Optimal" if prediction else "Faulty"
+        color = "green" if prediction else "red"
+        st.markdown(f"**Prediction:** :{color}[{status}]")
 
-    st.subheader("Data preview")
+    col1, col2 = st.columns(2)
+    with col1:
+        st.write("PS2 Signal (Pressure)")
+        st.line_chart(ps2_cycle)
+    with col2:
+        st.write("FS1 Signal (Flow)")
+        st.line_chart(fs1_cycle)
 
-    c1, c2 = st.columns(2)
-    with c1:
-        st.write(f"PS2 shape: {ps2.shape}")
-        st.dataframe(pd.DataFrame(ps2[:5]))
 
-    with c2:
-        st.write(f"FS1 shape: {fs1.shape}")
-        st.dataframe(pd.DataFrame(fs1[:5]))
+def main():
+    st.title("Predictive Valve Guardian")
 
-    if st.button("Predict"):
-        predictor = Predictor()
-        predictions = predictor.predict(ps2, fs1)
+    # Initialize session state for predictions
+    if "predictions" not in st.session_state:
+        st.session_state.predictions = None
 
-        results = pd.DataFrame({
-            "cycle": np.arange(len(predictions)),
-            "valve_optimal": predictions
-        })
+    # File Upload Section
+    st.sidebar.header("Data Upload")
+    ps2_file = st.sidebar.file_uploader(
+        "Upload PS2 signal",
+        type=["txt", "csv", "tsv"],
+        key="ps2",
+        on_change=clear_predictions,
+    )
+    fs1_file = st.sidebar.file_uploader(
+        "Upload FS1 signal",
+        type=["txt", "csv", "tsv"],
+        key="fs1",
+        on_change=clear_predictions,
+    )
 
-        st.subheader("Predictions")
-        st.dataframe(results, height=400)
+    if ps2_file and fs1_file:
+        try:
+            ps2 = load_data(ps2_file)
+            fs1 = load_data(fs1_file)
+        except Exception as e:
+            st.error(f"Error loading data: {e}")
+            st.stop()
 
-        selected_cycle = st.selectbox(
-            "Select cycle to inspect",
-            results["cycle"].tolist()
+        if ps2.shape[0] != fs1.shape[0]:
+            st.error(
+                f"PS2 and FS1 must have the same number of cycles. PS2: {ps2.shape[0]}, FS1: {fs1.shape[0]}"
+            )
+            st.stop()
+
+        # Data Info
+        st.sidebar.success(f"Loaded {ps2.shape[0]} cycles.")
+
+        # Cycle Selection
+        st.subheader("Cycle Inspection")
+        max_cycle = ps2.shape[0] - 1
+        selected_cycle = st.number_input(
+            "Select cycle to inspect", min_value=0, max_value=max_cycle, value=0, step=1
         )
 
-        st.subheader(f"Cycle {selected_cycle} signals")
+        # Prediction Logic
+        col_pred, col_space = st.columns([1, 4])
+        with col_pred:
+            if st.button("Run Predictions", type="primary"):
+                with st.spinner("Running predictions..."):
+                    try:
+                        predictor = Predictor()
+                        # Predictor expects (n_samples, n_timesteps)
+                        preds = predictor.predict(ps2, fs1)
+                        st.session_state.predictions = preds
+                        st.success("Done!")
+                    except Exception as e:
+                        st.error(f"Prediction failed: {e}")
 
-        c1, c2 = st.columns(2)
+        # Determine current prediction
+        current_prediction = None
+        if st.session_state.predictions is not None:
+            if len(st.session_state.predictions) == len(ps2):
+                current_prediction = st.session_state.predictions[selected_cycle]
+            else:
+                st.warning(
+                    "Data changed since last prediction. Please run predictions again."
+                )
+                st.session_state.predictions = None
 
-        with c1:
-            st.write("PS2")
-            st.line_chart(ps2[selected_cycle])
+        # Plotting
+        plot_cycle(
+            ps2[selected_cycle], fs1[selected_cycle], selected_cycle, current_prediction
+        )
 
-        with c2:
-            st.write("FS1")
-            st.line_chart(fs1[selected_cycle])
+        # Show all predictions if available
+        if st.session_state.predictions is not None:
+            with st.expander("View All Predictions"):
+                results = pd.DataFrame(
+                    {
+                        "cycle": np.arange(len(st.session_state.predictions)),
+                        "valve_optimal": st.session_state.predictions,
+                    }
+                )
+                st.dataframe(results, use_container_width=True)
+
+                # Download results
+                csv = results.to_csv(index=False).encode("utf-8")
+                st.download_button(
+                    "Download Predictions CSV",
+                    csv,
+                    "predictions.csv",
+                    "text/csv",
+                    key="download-csv",
+                )
+
+    else:
+        st.info("Please upload both PS2 and FS1 signal files to begin.")
+
+
+if __name__ == "__main__":
+    main()

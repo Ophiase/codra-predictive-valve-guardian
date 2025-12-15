@@ -13,8 +13,9 @@ dependencies = [
     "requests",
     # "mlflow",
     # "torch",
+    "joblib",
     "xgboost",
-    "streamlit"
+    "streamlit",
 ]
 
 [tool.black]
