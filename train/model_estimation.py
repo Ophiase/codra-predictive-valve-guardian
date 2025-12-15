@@ -7,6 +7,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, f1_score
 import xgboost as xgb
 
+from model.constants import K_FFT_FEATURES
+
 configs = [
     {"X": "raw", "feature_order": 0, "fft": False},
     {"X": "features", "feature_order": 1, "fft": False},
@@ -45,7 +47,7 @@ def evaluate_all() -> pd.DataFrame:
             X, y = build_raw_dataset()
         else:
             X, y = build_dataset(
-                feature_order=config["feature_order"], fft_feature=config["fft"])
+                feature_order=config["feature_order"], fft_feature=config["fft"], k_fft_features=K_FFT_FEATURES)
         feat_time = time.time() - start_feat
 
         X_train, y_train, X_test, y_test = split_dataset(X, y)
