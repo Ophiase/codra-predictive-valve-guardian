@@ -16,9 +16,4 @@ if ps2_file and fs1_file:
 
     if st.button("Predict"):
         predictor = Predictor()
-        pred = predictor.predict(ps2, fs1)
-
-        if pred == 1:
-            st.success("Valve condition is OPTIMAL (100%)")
-        else:
-            st.error("Valve condition is NOT optimal")
+        predictions: list[bool] = predictor.predict(ps2, fs1)
