@@ -2,6 +2,8 @@ from pathlib import Path
 
 import numpy as np
 
+from model.constants import K_FFT_FEATURES
+
 from .constants import FS1_PATH, PROFILE_PATH, PS2_PATH, TRAINING_LIMIT
 
 
@@ -26,7 +28,11 @@ def simple_features(signal: np.ndarray) -> np.ndarray:
     return features
 
 
-def extract_features(signal: np.ndarray, order: int, fft_feature: bool) -> np.ndarray:
+def extract_features(
+        signal: np.ndarray, order: int,
+        fft_feature: bool,
+        k_fft_features: int = K_FFT_FEATURES
+) -> np.ndarray:
     if order > 2 or order < 0:
         raise ValueError("Order must be 0, 1, or 2")
 
@@ -39,12 +45,23 @@ def extract_features(signal: np.ndarray, order: int, fft_feature: bool) -> np.nd
         result.append(features_order_k)
 
     if fft_feature:
-        k_fft_features = 20  # TODO: expose it as a parameter
         fft_coeffs = np.fft.rfft(signal, axis=1)
         fft_magnitudes = np.abs(fft_coeffs[:, :k_fft_features])
         result.append(fft_magnitudes)
 
     return np.hstack(result)
+
+
+def build_X(
+        ps2: np.ndarray,
+        fs1: np.ndarray,
+        feature_order: int,
+        fft_feature: bool,
+        k_fft_features: int = K_FFT_FEATURES) -> np.ndarray:
+    X_ps2 = extract_features(ps2, feature_order, fft_feature, k_fft_features)
+    X_fs1 = extract_features(fs1, feature_order, fft_feature, k_fft_features)
+    X = np.hstack([X_ps2, X_fs1])
+    return X
 
 
 def build_y(profile: np.ndarray) -> np.ndarray:
@@ -69,7 +86,7 @@ def build_raw_dataset():
     return X, y
 
 
-def build_dataset(feature_order: int = 2, fft_feature: bool = False):
+def build_dataset(feature_order: int = 2, fft_feature: bool = False, k_fft_features: int = K_FFT_FEATURES):
     """
     Build dataset for training and testing.
     Outputs:
@@ -80,10 +97,7 @@ def build_dataset(feature_order: int = 2, fft_feature: bool = False):
     fs1 = load_signal(FS1_PATH)
     profile = load_profile(PROFILE_PATH)
 
-    X_ps2 = extract_features(ps2, feature_order, fft_feature)
-    X_fs1 = extract_features(fs1, feature_order, fft_feature)
-
-    X = np.hstack([X_ps2, X_fs1])
+    X = build_X(ps2, fs1, feature_order, fft_feature, k_fft_features)
     y = build_y(profile)
 
     return X, y
