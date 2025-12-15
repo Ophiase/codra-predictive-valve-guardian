@@ -18,8 +18,11 @@ dashboard:
 		--server.port=8501 \
 		--server.address=0.0.0.0
 
+build_dashboard:
+	docker build -t valve-guardian-dashboard .
+
 dashboard_docker:
 	docker build -t valve-guardian-dashboard .
 	docker run -p 8501:8501 valve-guardian-dashboard
 	
-.PHONY: sync retrieve_data test_model train_model model_estimation dashboard dashboard_docker
+.PHONY: sync retrieve_data test_model train_model model_estimation dashboard build_dashboard dashboard_docker

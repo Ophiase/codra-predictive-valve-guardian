@@ -11,7 +11,7 @@ dependencies = [
     "black",
     "isort",
     "requests",
-    "mlflow",
+    # "mlflow",
     # "torch",
     "xgboost",
     "streamlit"

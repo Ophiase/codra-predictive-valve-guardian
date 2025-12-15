@@ -3,7 +3,7 @@ from pathlib import Path
 
 import requests
 
-from .constants import DATA_CACHE_PATH, DATA_HYDROLIC_PATH, DATA_URL
+from .constants import DATA_CACHE_PATH, DATA_HYDROLIC_PATH, DATA_URL, FS1_PATH, PROFILE_PATH, PROFILE_PATH, PS2_PATH
 
 
 def download_data(url: str, destination: Path):
@@ -29,6 +29,21 @@ def retrieve_pipeline():
     download_data(DATA_URL, zip_path)
     unzip_file(zip_path, DATA_HYDROLIC_PATH)
     os.remove(zip_path)
+
+
+def check_data_exists() -> bool:
+    required_files = [
+        PS2_PATH,
+        FS1_PATH,
+        PROFILE_PATH,
+    ]
+    return all(file.exists() for file in required_files)
+
+
+def auto_retrieve_data():
+    if not check_data_exists():
+        print("Data files not found. Retrieving data...")
+        retrieve_pipeline()
 
 
 if __name__ == "__main__":
