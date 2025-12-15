@@ -4,9 +4,7 @@ import joblib
 import numpy as np
 
 from ..data.build_dataset import build_X
-
-from .constants import (FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES,
-                        MODEL_PATH)
+from .constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES, MODEL_PATH
 
 
 class Predictor:
