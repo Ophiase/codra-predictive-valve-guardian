@@ -5,7 +5,13 @@ import numpy as np
 from processor.data.retrieve_data import auto_retrieve_data
 
 from ..model.constants import K_FFT_FEATURES
-from .constants import FS1_PATH, PROFILE_PATH, PS2_PATH, TRAINING_LIMIT, DATA_HYDROLIC_PATH
+from .constants import (
+    DATA_HYDROLIC_PATH,
+    FS1_PATH,
+    PROFILE_PATH,
+    PS2_PATH,
+    TRAINING_LIMIT,
+)
 
 
 def load_signal(path: Path) -> np.ndarray:
@@ -24,8 +30,7 @@ def simple_features(signal: np.ndarray) -> np.ndarray:
     q10 = np.quantile(signal, 0.1, axis=1)
     q90 = np.quantile(signal, 0.9, axis=1)
     energy = np.sum(signal**2, axis=1)
-    features = np.stack(
-        [mean, std, minimum, maximum, q10, q90, energy], axis=1)
+    features = np.stack([mean, std, minimum, maximum, q10, q90, energy], axis=1)
     return features
 
 

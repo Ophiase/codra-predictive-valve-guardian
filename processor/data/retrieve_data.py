@@ -3,7 +3,14 @@ from pathlib import Path
 
 import requests
 
-from .constants import DATA_CACHE_PATH, DATA_HYDROLIC_PATH, DATA_URL, FS1_PATH, PROFILE_PATH, PROFILE_PATH, PS2_PATH
+from .constants import (
+    DATA_CACHE_PATH,
+    DATA_HYDROLIC_PATH,
+    DATA_URL,
+    FS1_PATH,
+    PROFILE_PATH,
+    PS2_PATH,
+)
 
 
 def download_data(url: str, destination: Path):
