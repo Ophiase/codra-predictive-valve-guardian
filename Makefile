@@ -39,7 +39,7 @@ train_model:
 	uv run -m processor.train.train_model
 
 model_estimation:
-	uv run -m processor.model.estimate_model
+	uv run -m processor.train.model_estimation
 
 
 ###########################################################

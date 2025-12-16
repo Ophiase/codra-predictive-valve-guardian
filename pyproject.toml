@@ -16,6 +16,7 @@ dependencies = [
     "joblib",
     "xgboost",
     "streamlit",
+    "scikit-learn",
 ]
 
 [tool.black]
