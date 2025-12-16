@@ -1,6 +1,16 @@
 # Predictive Valve Guardian System
 
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-yellow.svg)](https://www.python.org/)
+
 This repository contains code to predict the valve condition of a hydraulic system based on sensor data.
+
+## Summary
+
+- [Quickstart](#quickstart)
+- [Problem Statement](#problem-statement)
+- [Solution](#solution)
+- [Conclusion](#conclusion)
 
 ## Quickstart
 
@@ -15,14 +25,20 @@ make sync
 
 ### Dashboard
 
+Launch the dashboard server.
+We use streamlit because it's simple and efficient for quick prototyping.
+
 ```bash
 # Launch dashboard
 make dashboard
+
 # Launch dashboard with docker
-make dashboard_docker
+make dashboard_docker # the first build can be long (2 minutes for me)
 ```
 
-### Play with Processor
+You can then access the dashboard at: [http://localhost:8501](http://localhost:8501)
+
+### Play with the Processor
 
 ```bash
 # Retrieve the data
@@ -40,10 +56,12 @@ make model_estimation
 
 ## Problem Statement:
 
-A cycle is a complete operation of the valve guardian system.
+We acquire data from:
 
-We have $C=2205$ cycles of data from a valve guardian system.
+- https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems
 
+A cycle is a complete operation of the valve guardian system.\
+We have $C=2205$ cycles of data from a valve guardian system.\
 At each cycle $i < C$ we have $X_i$ composed of:
 
 - $PS2_i$: Pressure Sensor 2 value
