@@ -26,6 +26,8 @@ Install: Docker or directly the uv package manager.
 ```bash
 # (Optional) uv sync
 make sync
+# (Optional) dev environment
+make dev_setup # install black/isort/pre-commit/flake8 and setup pre-commit hooks
 ```
 
 ### Dashboard

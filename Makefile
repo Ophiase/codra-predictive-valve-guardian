@@ -33,5 +33,13 @@ dashboard_docker:
 	else \
 		$(MAKE) dashboard_docker_run; \
 	fi
+
+dev_setup:
+	uv sync --group dev
+	uv run pre-commit install
+
+format:
+	uv run black .
+	uv run isort .
 	
 .PHONY: sync retrieve_data test_model train_model model_estimation dashboard build_dashboard dashboard_docker dashboard_docker_run
