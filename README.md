@@ -1,9 +1,14 @@
-# Predictive Valve Guardian System
+# Predictive Valve Guardian System for Hydraulic Systems
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-yellow.svg)](https://www.python.org/)
 
 This repository contains code to predict the valve condition of a hydraulic system based on sensor data.
+
+<div align="center">
+  <img src="./resources/dashboard/dashboard_preview_00.png" width="800">
+</div>
+
 
 ## Summary
 
