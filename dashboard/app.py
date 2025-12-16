@@ -1,35 +1,16 @@
+from typing import Optional, Tuple
+
+import numpy as np
 import streamlit as st
 
 from dashboard.constants import FS1_KEY, LAYOUT, PAGE_TITLE, PS2_KEY
 from dashboard.data import load_data
-from dashboard.state import (
-    clear_predictions,
-    get_predictions,
-    init_session_state,
-    set_predictions,
-)
+from dashboard.sidebar import render_sidebar
+from dashboard.state import get_predictions, init_session_state, set_predictions
 from dashboard.visualization import display_predictions, plot_cycle
 from processor.model.predictor import Predictor
 
 st.set_page_config(page_title=PAGE_TITLE, layout=LAYOUT)
-
-
-def render_sidebar():
-    """Render the sidebar for file uploads."""
-    st.sidebar.header("Data Upload")
-    ps2_file = st.sidebar.file_uploader(
-        "Upload PS2 signal",
-        type=["txt", "csv", "tsv"],
-        key=PS2_KEY,
-        on_change=clear_predictions,
-    )
-    fs1_file = st.sidebar.file_uploader(
-        "Upload FS1 signal",
-        type=["txt", "csv", "tsv"],
-        key=FS1_KEY,
-        on_change=clear_predictions,
-    )
-    return ps2_file, fs1_file
 
 
 def process_data(ps2_file, fs1_file):
@@ -85,23 +66,16 @@ def main():
         "Select cycle to inspect", min_value=0, max_value=max_cycle, value=0, step=1
     )
 
-    handle_predictions(ps2, fs1)
-
     predictions = get_predictions()
-    current_prediction = None
 
+    current_cycle_prediction: Optional[bool] = None
     if predictions is not None:
-        if len(predictions) == len(ps2):
-            current_prediction = predictions[selected_cycle]
-        else:
-            st.warning(
-                "Data changed since last prediction. Please run predictions again."
-            )
-            set_predictions(None)
+        current_cycle_prediction = predictions[selected_cycle]
+    current_ps2 = ps2[selected_cycle]
+    current_fs1 = fs1[selected_cycle]
 
-    plot_cycle(
-        ps2[selected_cycle], fs1[selected_cycle], selected_cycle, current_prediction
-    )
+    handle_predictions(ps2, fs1)
+    plot_cycle(current_ps2, current_fs1, selected_cycle, current_cycle_prediction)
     display_predictions(predictions)
 
 
