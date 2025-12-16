@@ -121,6 +121,9 @@ def build_dataset(
 def split_dataset(X: np.ndarray, y: np.ndarray, training_limit: int = TRAINING_LIMIT):
     """
     Split dataset into training and testing sets.
+    Outputs:
+        X_train, y_train: Training features and labels
+        X_test, y_test: Testing features and labels
     """
 
     X_train, y_train = X[:training_limit], y[:training_limit]

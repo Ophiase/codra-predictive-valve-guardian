@@ -11,7 +11,6 @@ This repository contains code to predict the valve condition of a hydraulic syst
   <img src="./resources/dashboard/dashboard_preview_00.png" width="800">
 </div>
 
-
 ## Summary
 
 - [Quickstart](#quickstart)
@@ -57,8 +56,8 @@ make retrieve_data
 # (Optional) Retrain the model
 make train_model
 
-# Test the model
-make test_model
+# Test the data integrity and the model
+make tests
 
 # Verify model estimation
 make model_estimation

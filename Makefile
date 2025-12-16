@@ -31,7 +31,8 @@ sync:
 retrieve_data:
 	uv run -m processor.data.retrieve_data
 
-test_model:
+tests: # TODO: use unit test framework
+	uv run -m processor.tests.verify_data
 	uv run -m processor.tests.verify_model
 
 train_model:
