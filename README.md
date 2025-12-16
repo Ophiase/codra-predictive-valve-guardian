@@ -21,7 +21,7 @@ This repository contains code to predict the valve condition of a hydraulic syst
 
 ### Setup Environment
 
-Install: Docker or directly the uv package manager.
+Install: [Docker](https://docs.docker.com/engine/install/]) or directly the [uv package manager](https://docs.astral.sh/uv/getting-started/installation/).
 
 ```bash
 # (Optional) uv sync
