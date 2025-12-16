@@ -2,6 +2,8 @@
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-yellow.svg)](https://www.python.org/)
+[![UV](https://img.shields.io/badge/uv-available-brightgreen.svg)](https://astral.sh/uv)
+[![Docker](https://img.shields.io/badge/Docker-available-blue.svg)](https://www.docker.com/)
 
 This repository contains code to predict the valve condition of a hydraulic system based on sensor data.
 
@@ -120,11 +122,11 @@ I will try the following models:
 - RandomForest
 - XGBoost
 - 1D-CNN or LSTMs to encode the time series directly.
-  - challenge: the
   - If will try those approeach only if the classical models don't work well enough.
-    - $\implies$ Finally it was not necessary.
+    - Finally it was not necessary.
+    - The FFT-based approach is already very efficient, it's unlikely that deep learning models will be faster and more accurate.
 
-### Result
+### Results
 
 <div>
 <table border="1" class="dataframe">
