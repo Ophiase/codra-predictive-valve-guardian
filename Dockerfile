@@ -1,11 +1,12 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm
+# FROM ghcr.io/astral-sh/uv:python3.12-bookworm
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
 
 WORKDIR /app
 COPY . /app
 
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
-ENV UV_LINK_MODE=copy
+# ENV UV_LINK_MODE=copy
 ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
 
 RUN uv sync --frozen
