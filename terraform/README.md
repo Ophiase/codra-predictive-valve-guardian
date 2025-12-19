@@ -68,9 +68,10 @@ docker push ${GCP_REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE_NAME
 
 3. Create the `terraform.tfvars` on this folder:
 ```toml
-project_id = "your project id"
-region     = "your region"
-service_name = "your service name"
+project_id = "<your-gcp-project-id>"
+region = "<your-gcp-region>" # e.g. europe-west9
+service_name = "predictive-valve-guardian-service"
+image = "<your-gcp-region>-docker.pkg.dev/<your-gcp-project-id>/predictive-valve-guardian-dashboard/valve-guardian-dashboard:latest"
 ```
 
 
