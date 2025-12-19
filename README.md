@@ -11,9 +11,12 @@ This repository contains code to predict the valve condition of a hydraulic syst
   <img src="./resources/dashboard/dashboard_preview_00.png" width="800">
 </div>
 
+Check the [terraform/README.md](./terraform/README.md) for a step-by-step deployment of this solution on Google Cloud Platform (GCP).
+
 ## Summary
 
 - [Quickstart](#quickstart)
+- [Terraform Deployment](./terraform/README.md)
 - [Problem Statement](#problem-statement)
 - [Solution](#solution)
 - [Conclusion](#conclusion)
