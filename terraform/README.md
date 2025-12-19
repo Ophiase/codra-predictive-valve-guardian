@@ -72,8 +72,10 @@ project_id = "<your-gcp-project-id>"
 region = "<your-gcp-region>" # e.g. europe-west9
 service_name = "predictive-valve-guardian-service"
 image = "<your-gcp-region>-docker.pkg.dev/<your-gcp-project-id>/predictive-valve-guardian-dashboard/valve-guardian-dashboard:latest"
+credentials_path="<path-to-your-service-account-key>.json"
 ```
 
+4. Run Terraform:
 
 ```bash
 terraform init
