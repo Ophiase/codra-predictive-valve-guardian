@@ -72,7 +72,6 @@ docker push ${GCP_REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE_NAME
 ```toml
 project_id = "<your-gcp-project-id>"
 region = "<your-gcp-region>" # e.g. europe-west9
-service_name = "predictive-valve-guardian-service"
 image = "<your-gcp-region>-docker.pkg.dev/<your-gcp-project-id>/predictive-valve-guardian-dashboard/valve-guardian-dashboard:latest"
 credentials_path="<path-to-your-service-account-key>.json"
 ```
@@ -83,3 +82,28 @@ credentials_path="<path-to-your-service-account-key>.json"
 terraform init
 terraform apply
 ```
+
+5. Activate Invoker role for all users (optional, only if you want public access):
+
+You can do it via gcp console, or run the following command:
+
+```bash
+gcloud run services add-iam-policy-binding predictive-valve-guardian-service \
+    --member="allUsers" \
+    --role="roles/run.invoker" \
+    --region="${GCP_REGION}" \
+    --platform="managed"
+```
+
+You can also just give the `Cloud Run Admin` role to the service accounts and uncomment the following lines in `terraform/main.tf` (and configure `invoker_member` in `terraform.tfvars`):
+
+```toml
+resource "google_cloud_run_service_iam_member" "invoker" {
+  service  = google_cloud_run_v2_service.service.name
+  location = var.region
+  role     = "roles/run.invoker"
+  member   = var.invoker_member
+}
+```
+
+then restart with `terraform apply`.
