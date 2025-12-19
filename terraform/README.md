@@ -9,6 +9,8 @@ GCP services used
 
 ## Instructions
 
+0. Enable Cloud Run and Artifact Registry APIs on your GCP project.
+
 1. Create a GCP service account with the following authorizations:
 - `Cloud Run Developer`
     - `roles/run.developer`
