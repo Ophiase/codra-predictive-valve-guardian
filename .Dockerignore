@@ -11,3 +11,5 @@ wheels/
 
 ignore/
 terraform/
+data_cache/
+.git
