@@ -1,0 +1,8 @@
+build_dashboard:
+	cd .. && just build_dashboard
+
+init:
+	terraform init
+
+apply:
+	terraform apply
