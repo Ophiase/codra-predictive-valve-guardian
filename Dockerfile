@@ -1,14 +1,17 @@
-FROM ghcr.io/astral-sh/uv:python3.12-bookworm-slim
+FROM ghcr.io/astral-sh/uv:python3.12-alpine
 
 WORKDIR /app
+
+# Pre-install dependencies
+COPY pyproject.toml uv.lock /app/
+RUN uv sync --frozen
+
+# Copy the rest of the application code
 COPY . /app
 
-ENV PYTHONUNBUFFERED=1
-ENV PYTHONPATH=/app
 # ENV UV_LINK_MODE=copy
+ENV PYTHONUNBUFFERED=1
 ENV STREAMLIT_BROWSER_GATHER_USAGE_STATS=false
-
-RUN uv sync --frozen
 
 EXPOSE 8501
 
