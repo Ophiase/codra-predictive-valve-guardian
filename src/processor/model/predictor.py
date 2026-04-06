@@ -1,10 +1,15 @@
 import joblib
 import numpy as np
 
-from processor.data.build_dataset import build_X
+from processor.config.model_config import (
+    FEATURE_ORDER,
+    FFT_FEATURE_ENABLED,
+    K_FFT_FEATURES,
+)
 from processor.model.classifier_protocol import ClassifierProtocol
 
-from .constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES, MODEL_PATH
+from .constants import MODEL_PATH
+from .pipeline import build_X
 
 BinaryPrediction = bool
 
@@ -17,6 +22,7 @@ class Predictor:
             model = joblib.load(MODEL_PATH)
         else:
             self.model = model
+        print(f"Model loaded from {MODEL_PATH}: {self.model}")
 
     def predict(self, ps2: np.ndarray, fs1: np.ndarray) -> list[BinaryPrediction]:
         """

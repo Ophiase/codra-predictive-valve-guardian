@@ -2,11 +2,12 @@ import time
 from dataclasses import dataclass
 
 import pandas as pd
+from numpy.typing import ArrayLike
 from sklearn.metrics import accuracy_score, f1_score
 
+from processor.config.model_config import K_FFT_FEATURES
 from processor.data.build_dataset import build_dataset, build_raw_dataset, split_dataset
 from processor.model import (
-    K_FFT_FEATURES,
     ClassifierProtocol,
 )
 from processor.train.model_candidates import CANDIDATES, MODEL_CANDIDATES, RawOrFeatures
@@ -22,10 +23,10 @@ class ModelMetric:
 
 def evaluate_model(
     model: ClassifierProtocol,
-    X_train: pd.DataFrame,
-    y_train: pd.Series,
-    X_test: pd.DataFrame,
-    y_test: pd.Series,
+    X_train: ArrayLike,
+    y_train: ArrayLike,
+    X_test: ArrayLike,
+    y_test: ArrayLike,
 ) -> ModelMetric:
     start_train = time.time()
     model.fit(X_train, y_train)
@@ -35,10 +36,10 @@ def evaluate_model(
     y_pred = model.predict(X_test)
     pred_time = time.time() - start_pred
 
-    acc = accuracy_score(y_test, y_pred)
-    f1 = f1_score(y_test, y_pred)
+    accuracy = float(accuracy_score(y_test, y_pred))
+    f1 = float(f1_score(y_test, y_pred))
     return ModelMetric(
-        accuracy=acc, f1=f1, train_time=train_time, predict_time=pred_time
+        accuracy=accuracy, f1=f1, train_time=train_time, predict_time=pred_time
     )
 
 

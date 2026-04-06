@@ -1,11 +1,11 @@
 import numpy as np
 
-from processor.data.build_dataset import build_dataset
-from processor.model.constants import (
+from processor.config.model_config import (
     FEATURE_ORDER,
     FFT_FEATURE_ENABLED,
     K_FFT_FEATURES,
 )
+from processor.data.build_dataset import build_dataset
 from processor.model.predictor import Predictor
 
 AUTHORIZED_LOSS_THRESHOLD = 0.1
