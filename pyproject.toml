@@ -1,5 +1,5 @@
 [project]
-name = "codra-predictive-valve-guardian"
+name = "predictive-valve-guardian"
 version = "0.2.0"
 description = "Dashboard and library for a predictive valve guardian module."
 readme = "README.md"

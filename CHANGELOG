@@ -1,7 +1,14 @@
 # CHANGELOG
 
 - v0.1.1: modernization
-  - switched linter to ruff
-  - switched to hatchling for packaging
+  - justfile release mechanism
+  - Dockerfile cache optimization
+  - Dockerfile lighter base image
+- v0.1.0: modernization
   - switched task manager to justfiles
-- v0.1.0: base
+  - switched to hatchling for packaging
+  - switched linter to ruff
+
+## v1.0.0: First release
+
+- v1.0.0: Initial release

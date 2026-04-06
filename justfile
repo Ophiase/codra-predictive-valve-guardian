@@ -86,7 +86,7 @@ _increment:
 
 [group("DEPLOY")]
 build tag=DEV_TAG:
-    docker build -t {{ tag }} .
+    docker build -t {{CONTAINER_NAME}}:{{ tag }} .
 
 [group("DEPLOY")]
 run tag=DEV_TAG:
