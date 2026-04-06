@@ -1,0 +1,7 @@
+# CHANGELOG
+
+- v0.1.1: modernization
+  - switched linter to ruff
+  - switched to hatchling for packaging
+  - switched task manager to justfiles
+- v0.1.0: base

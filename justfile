@@ -1,0 +1,89 @@
+set dotenv-load := true
+set windows-shell := ["powershell.exe", "-NoLogo", "-Command"]
+
+# User
+
+[group("USER")]
+install:
+    uv run task install
+
+[group("USER")]
+uninstall:
+    rm -rf .venv
+
+[group("USER")]
+reinstall:
+    rm -rf .venv
+    uv run task install
+
+[group("USER")]
+dashboard:
+    uv run streamlit run dashboard/app.py \
+    	--server.port=8501 \
+    	--server.address=0.0.0.0
+
+[group("USER")]
+start: dashboard
+
+# Dev
+
+[group("AI")]
+retrieve_data:
+    uv run -m processor.data.retrieve_data
+
+[group("AI")]
+train_model:
+    uv run -m processor.train.train_model
+
+[group("AI")]
+model_estimation:
+    uv run -m processor.train.model_estimation
+
+[group("TEST")]
+tests:
+    uv run -m processor.tests.verify_data
+    uv run -m processor.tests.verify_model
+
+[group("DEV")]
+enable_hooks:
+    uv run pre-commit install
+
+[group("DEV")]
+disable_hooks:
+    uv run pre-commit uninstall
+
+[group("DEV")]
+lint:
+    @uv run task lint
+
+[group("DEV")]
+ty:
+    @uv run task ty
+
+[group("DEV")]
+precommit:
+    uv run task lint
+    uv run task ty
+
+# deploy
+
+DEV_TAG := "dev"
+LATEST_TAG := "latest"
+IMAGE_NAME := "valve-guardian-dashboard"
+CONTAINER_NAME := "valve-guardian-dashboard"
+
+[group("UTILITIES")]
+increment:
+    @echo "Incrementing version..."
+
+[group("DEPLOY")]
+build tag=DEV_TAG:
+    docker build -t {{ tag }} .
+
+[group("DEPLOY")]
+run tag=DEV_TAG:
+    docker run --name {{ CONTAINER_NAME }} -p 8501:8501 {{ IMAGE_NAME }}:{{ tag }}
+
+[group("DEPLOY")]
+release:
+    @echo "Releasing new version..."

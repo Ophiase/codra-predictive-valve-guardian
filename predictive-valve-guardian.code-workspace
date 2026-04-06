@@ -5,9 +5,15 @@
         }
     ],
     "settings": {
-        "python.defaultInterpreterPath": "",
-        "python.terminal.activateEnvironment": true,
-        "python.analysis.extraPaths": [
-        ]
+        "jupyter.notebookFileRoot": "${workspaceFolder}",
+        "git.detectSubmodules": true,
+        "git.openRepositoryInParentFolders": "always",
+        "git.autoRepositoryDetection": "subFolders",
+        "python.terminal.activateEnvironment": false,
+        "python.analysis.diagnosticMode": "openFilesOnly",
+        "[markdown]": {
+            "editor.tabSize": 2,
+            "editor.insertSpaces": true
+        }
     }
 }

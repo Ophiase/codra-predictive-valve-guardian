@@ -1,30 +1,47 @@
 [project]
 name = "codra-predictive-valve-guardian"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.2.0"
+description = "Dashboard and library for a predictive valve guardian module."
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "ipykernel",
-    "pandas",
-    "numpy",
-    "black",
-    "isort",
-    "requests",
-    # "mlflow",
-    # "torch",
-    "joblib",
-    "xgboost",
-    "streamlit",
-    "scikit-learn",
+    "hatchling>=1.29.0",
+    "joblib>=1.5.3",
+    "numpy>=2.4.4",
+    "pandas>=3.0.2",
+    "requests>=2.33.1",
+    "scikit-learn>=1.8.0",
+    "streamlit>=1.56.0",
+    "taskipy>=1.14.1",
+    "xgboost>=3.2.0",
 ]
 
-[tool.black]
-line-length = 88
-
-[tool.isort]
-profile = "black"
-line_length = 88
 
 [dependency-groups]
-dev = ["black", "isort", "pre-commit", "flake8"]
+dev = [
+    "ruff>=0.15.4",
+    "ty>=0.0.20",
+    "pre-commit>=4.5.1",
+	"ipykernel>=7.2.0",
+    "pytest>=9.0.2"
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = [
+    "src/dashboard",
+    "src/processor",
+]
+
+[tool.taskipy.tasks]
+# Setup tasks
+install = "uv sync --all-groups"
+update = "uv lock --upgrade"
+# Development tasks
+lint = "uv run ruff check . --fix"
+ty = "uv run ty check ."
+# install-precommit = "uv run pre-commit install --install-hooks"
+# precommit = "uv run pre-commit run --all-files"

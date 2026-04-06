@@ -3,6 +3,7 @@
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-yellow.svg)](https://www.python.org/)
 [![UV](https://img.shields.io/badge/uv-available-brightgreen.svg)](https://astral.sh/uv)
+[![Justfile](https://img.shields.io/badge/just-available-brightgreen.svg)](https://just.systems/man/en/)
 [![Docker](https://img.shields.io/badge/Docker-available-blue.svg)](https://www.docker.com/)
 
 This repository contains code to predict the valve condition of a hydraulic system based on sensor data.
@@ -25,15 +26,9 @@ Check the [terraform/README.md](./terraform/README.md) for a step-by-step deploy
 
 ### Setup Environment
 
-Install: [Docker](https://docs.docker.com/engine/install/]) or directly the [uv package manager](https://docs.astral.sh/uv/getting-started/installation/).
-
-```bash
-# (Optional) uv sync
-make sync
-# (Optional) dev environment
-make dev_setup # install black/isort/pre-commit/flake8
-make enable_hooks # enable pre-commit hooks
-```
+- [Justfiles](https://github.com/casey/just?tab=readme-ov-file#packages)
+- [Docker](https://docs.docker.com/engine/install/])
+- [uv package manager](https://docs.astral.sh/uv/getting-started/installation/).
 
 ### Dashboard
 
@@ -42,10 +37,12 @@ We use streamlit because it's simple and efficient for quick prototyping.
 
 ```bash
 # Launch dashboard
-make dashboard
+just install
+just dashboard
 
-# Launch dashboard with docker
-make dashboard_docker # the first build can be long (2 minutes for me)
+# Or with docker
+just build
+just run
 ```
 
 You can then access the dashboard at: [http://localhost:8501](http://localhost:8501)
@@ -54,23 +51,23 @@ You can then access the dashboard at: [http://localhost:8501](http://localhost:8
 
 ```bash
 # Retrieve the data
-make retrieve_data
+just retrieve_data
 
 # (Optional) Retrain the model
-make train_model
+just train_model
 
 # Test the data integrity and the model
-make tests
+just tests
 
 # Verify model estimation
-make model_estimation
+just model_estimation
 ```
 
-## Problem Statement:
+## Problem Statement
 
 We acquire data from:
 
-- https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems
+- <https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems>
 
 A cycle is a complete operation of the valve guardian system.\
 We have $C=2205$ cycles of data from a valve guardian system.\
@@ -331,7 +328,7 @@ I will try the following models:
 </table>
 </div>
 
-## Conclusion:
+## Conclusion
 
 Remarks:
 

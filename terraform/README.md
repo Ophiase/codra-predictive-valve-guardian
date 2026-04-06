@@ -1,42 +1,46 @@
 # GCP Deployment with Terraform
 
 GCP services used
--  a single `Cloud Run` service
-    - Runs the container
-    - exposes HTTPS
-    - maps container port `8501` $\to$ `8080`
 
+- a single `Cloud Run` service
+  - Runs the container
+  - exposes HTTPS
+  - maps container port `8501` $\to$ `8080`
 
 ## Instructions
 
 0. Enable Cloud Run and Artifact Registry APIs on your GCP project.
 
 1. Create a GCP service account with the following authorizations:
-- `Cloud Run Developer`
-    - `roles/run.developer`
-    - create/update `Cloud Run` services
-- `Service Account User` 
-    - `roles/iam.serviceAccountUser`
-    - attach runtime service account
-- ⚠️ `Artifact Registry Admin`
-    - `roles/artifactregistry.admin`
-    - create Artifact Registry repo
-    - ⚠️ only needed if the repo does not exist yet
-    - ⚠️ recommended to remove this role after the repo is created
-- `Artifact Registry Writer` 
-    - `roles/artifactregistry.writer`: 
-    - push Docker image
-- `Logs Writer`
-    - `roles/logging.logWriter`
-    - Useful for the container
 
-2. Download and place the API key somewhere.
-3. Build the dashboard image
+- `Cloud Run Developer`
+  - `roles/run.developer`
+  - create/update `Cloud Run` services
+- `Service Account User`
+  - `roles/iam.serviceAccountUser`
+  - attach runtime service account
+- ⚠️ `Artifact Registry Admin`
+  - `roles/artifactregistry.admin`
+  - create Artifact Registry repo
+  - ⚠️ only needed if the repo does not exist yet
+  - ⚠️ recommended to remove this role after the repo is created
+- `Artifact Registry Writer`
+  - `roles/artifactregistry.writer`:
+  - push Docker image
+- `Logs Writer`
+  - `roles/logging.logWriter`
+  - Useful for the container
+
+1. Download and place the API key somewhere.
+2. Build the dashboard image
+
 ```bash
 cd ..
-make build_dashboard
+just build
 ```
-4. Upload the dashboard image to Artifact Registry
+
+1. Upload the dashboard image to Artifact Registry
+
 ```bash
 # Connect to your service account
 GOOGLE_APPLICATION_CREDENTIALS="<insert keyfile path>.json"
@@ -68,7 +72,8 @@ docker tag ${IMAGE_NAME}:latest \
 docker push ${GCP_REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/${IMAGE_NAME}:${IMAGE_TAG}
 ```
 
-3. Create the `terraform.tfvars` on this folder:
+1. Create the `terraform.tfvars` on this folder:
+
 ```toml
 project_id = "<your-gcp-project-id>"
 region = "<your-gcp-region>" # e.g. europe-west9
@@ -76,14 +81,14 @@ image = "<your-gcp-region>-docker.pkg.dev/<your-gcp-project-id>/predictive-valve
 credentials_path="<path-to-your-service-account-key>.json"
 ```
 
-4. Run Terraform:
+1. Run Terraform:
 
 ```bash
 terraform init
 terraform apply
 ```
 
-5. Activate Invoker role for all users (optional, only if you want public access):
+1. Activate Invoker role for all users (optional, only if you want public access):
 
 You can do it via gcp console, or run the following command:
 
