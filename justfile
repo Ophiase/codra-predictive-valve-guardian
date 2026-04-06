@@ -80,13 +80,25 @@ LATEST_TAG := "latest"
 IMAGE_NAME := "valve-guardian-dashboard"
 CONTAINER_NAME := "valve-guardian-dashboard"
 
+[group("DEPLOY")]
+build tag=DEV_TAG:
+    docker build -t {{ CONTAINER_NAME }}:{{ tag }} .
+
 [group("UTILITIES")]
 _increment:
     @echo "Incrementing version..."
 
-[group("DEPLOY")]
-build tag=DEV_TAG:
-    docker build -t {{CONTAINER_NAME}}:{{ tag }} .
+[group("UTILITIES")]
+[script("bash")]
+_tag version is_latest="true":
+    docker tag \
+        {{ IMAGE_NAME }}:{{ DEV_TAG }} \
+        {{ IMAGE_NAME }}:{{ version }}
+    if [ "{{ is_latest }}" = "true" ]; then \
+        docker tag \
+            {{ IMAGE_NAME }}:{{ DEV_TAG }} \
+            {{ IMAGE_NAME }}:latest; \
+    fi
 
 [group("DEPLOY")]
 run tag=DEV_TAG:
