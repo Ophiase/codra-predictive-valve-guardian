@@ -3,8 +3,8 @@ from pathlib import Path
 import numpy as np
 
 from processor.data.retrieve_data import auto_retrieve_data
+from processor.model.constants import K_FFT_FEATURES
 
-from ..model.constants import K_FFT_FEATURES
 from .constants import (
     FS1_PATH,
     PROFILE_PATH,

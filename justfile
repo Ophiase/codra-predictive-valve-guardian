@@ -41,8 +41,16 @@ model_estimation:
 
 [group("TEST")]
 tests:
-    uv run -m processor.tests.verify_data
-    uv run -m processor.tests.verify_model
+    @echo "Running all tests..."
+
+[group("DEMO")]
+demo:
+    uv run -m tests.demo.verify_data
+    uv run -m tests.demo.verify_model
+
+[group("DEV")]
+update:
+    @uv run task update
 
 [group("DEV")]
 enable_hooks:
@@ -73,7 +81,7 @@ IMAGE_NAME := "valve-guardian-dashboard"
 CONTAINER_NAME := "valve-guardian-dashboard"
 
 [group("UTILITIES")]
-increment:
+_increment:
     @echo "Incrementing version..."
 
 [group("DEPLOY")]
