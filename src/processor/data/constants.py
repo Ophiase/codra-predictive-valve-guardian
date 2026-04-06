@@ -1,11 +1,13 @@
 from pathlib import Path
 
-from pydantic import HttpUrl
+from httpx import URL
 
 from processor.constants import PROCESSOR_ROOT
 
 # PATH CONSTANTS
-DATA_URL: HttpUrl = "https://archive.ics.uci.edu/static/public/447/condition+monitoring+of+hydraulic+systems.zip"
+DATA_URL: URL = URL(
+    "https://archive.ics.uci.edu/static/public/447/condition+monitoring+of+hydraulic+systems.zip"
+)
 
 DATA_CACHE_PATH = PROCESSOR_ROOT / Path("data_cache")
 DATA_HYDROLIC_PATH = DATA_CACHE_PATH / Path("hydraulic_ics")

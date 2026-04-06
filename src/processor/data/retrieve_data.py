@@ -1,6 +1,7 @@
 from pathlib import Path
 
-import requests
+import httpx
+from httpx import URL
 
 from .constants import (
     DATA_CACHE_PATH,
@@ -12,8 +13,8 @@ from .constants import (
 )
 
 
-def download_data(url: str, destination: Path):
-    response = requests.get(url, timeout=30)
+def download_data(url: URL, destination: Path):
+    response = httpx.get(url, timeout=30)
     response.raise_for_status()  # Ensure we notice bad responses
 
     with Path(destination).open("wb") as file:

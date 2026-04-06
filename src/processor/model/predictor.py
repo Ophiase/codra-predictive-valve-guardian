@@ -1,4 +1,3 @@
-
 import joblib
 import numpy as np
 
@@ -7,15 +6,19 @@ from processor.model.classifier_protocol import ClassifierProtocol
 
 from .constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES, MODEL_PATH
 
+BinaryPrediction = bool
+
 
 class Predictor:
+    model: ClassifierProtocol
+
     def __init__(self, model: ClassifierProtocol | None = None):
         if model is None:
-            self.model = joblib.load(MODEL_PATH)
+            model = joblib.load(MODEL_PATH)
         else:
             self.model = model
 
-    def predict(self, ps2: np.ndarray, fs1: np.ndarray) -> list[bool]:
+    def predict(self, ps2: np.ndarray, fs1: np.ndarray) -> list[BinaryPrediction]:
         """
         Predicts the condition based on PS2 and FS1 signals.
         :param ps2: np.ndarray, shape (n_samples, n_timesteps)
@@ -32,7 +35,7 @@ class Predictor:
         predictions = self.model.predict(X)
         return predictions.tolist()
 
-    def predict_single(self, ps2: np.ndarray, fs1: np.ndarray) -> bool:
+    def predict_single(self, ps2: np.ndarray, fs1: np.ndarray) -> BinaryPrediction:
         """
         Predicts the condition for a single sample based on PS2 and FS1 signals.
         :param ps2: np.ndarray, shape (n_timesteps,)
@@ -51,6 +54,6 @@ class Predictor:
         prediction = self.model.predict(X)
         return bool(prediction[0])
 
-    def predict_batch(self, X: np.ndarray) -> list[bool]:
+    def predict_batch(self, X: np.ndarray) -> list[BinaryPrediction]:
         predictions = self.model.predict(X)
         return predictions.tolist()
