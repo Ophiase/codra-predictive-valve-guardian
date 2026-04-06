@@ -19,10 +19,9 @@ class Predictor:
 
     def __init__(self, model: ClassifierProtocol | None = None):
         if model is None:
-            model = joblib.load(MODEL_PATH)
+            self.model = joblib.load(MODEL_PATH)
         else:
             self.model = model
-        print(f"Model loaded from {MODEL_PATH}: {self.model}")
 
     def predict(self, ps2: np.ndarray, fs1: np.ndarray) -> list[BinaryPrediction]:
         """

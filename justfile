@@ -33,7 +33,7 @@ retrieve_data:
 
 [group("AI")]
 train_model:
-    uv run -m processor.train.train_model
+    uv run -m processor.train
 
 [group("AI")]
 model_estimation:
