@@ -12,4 +12,4 @@ RUN uv sync --frozen
 
 EXPOSE 8501
 
-CMD ["sh", "-c", "uv run streamlit run dashboard/app.py --server.port=8501 --server.address=0.0.0.0"]
+CMD ["sh", "-c", "uv run streamlit run src/dashboard/__main__.py --server.port=8501 --server.address=0.0.0.0"]
