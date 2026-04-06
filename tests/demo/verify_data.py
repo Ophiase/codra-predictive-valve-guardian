@@ -1,6 +1,9 @@
+from processor.data.build_dataset import (
+    build_dataset,
+    build_raw_dataset,
+    split_dataset,
+)
 from processor.data.constants import TRAINING_LIMIT
-
-from ..data.build_dataset import build_dataset, build_raw_dataset, split_dataset
 
 
 def test_build_raw_dataset() -> None:

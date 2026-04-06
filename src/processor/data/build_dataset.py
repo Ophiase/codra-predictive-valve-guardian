@@ -6,7 +6,6 @@ from processor.data.retrieve_data import auto_retrieve_data
 
 from ..model.constants import K_FFT_FEATURES
 from .constants import (
-    DATA_HYDROLIC_PATH,
     FS1_PATH,
     PROFILE_PATH,
     PS2_PATH,

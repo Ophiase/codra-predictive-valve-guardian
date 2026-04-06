@@ -1,9 +1,7 @@
-from typing import Optional, Tuple
 
-import numpy as np
 import streamlit as st
 
-from dashboard.constants import FS1_KEY, LAYOUT, PAGE_TITLE, PS2_KEY
+from dashboard.constants import LAYOUT, PAGE_TITLE
 from dashboard.data import load_data
 from dashboard.sidebar import render_sidebar
 from dashboard.state import get_predictions, init_session_state, set_predictions
@@ -24,7 +22,8 @@ def process_data(ps2_file, fs1_file):
 
     if ps2.shape[0] != fs1.shape[0]:
         st.error(
-            f"PS2 and FS1 must have the same number of cycles. PS2: {ps2.shape[0]}, FS1: {fs1.shape[0]}"
+            "PS2 and FS1 must have the same number of cycles."
+            f"PS2: {ps2.shape[0]}, FS1: {fs1.shape[0]}"
         )
         st.stop()
 
@@ -68,7 +67,7 @@ def main():
 
     predictions = get_predictions()
 
-    current_cycle_prediction: Optional[bool] = None
+    current_cycle_prediction: bool | None = None
     if predictions is not None:
         current_cycle_prediction = predictions[selected_cycle]
     current_ps2 = ps2[selected_cycle]

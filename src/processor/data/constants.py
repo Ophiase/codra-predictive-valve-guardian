@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from ..constants import PROCESSOR_ROOT
+from processor.constants import PROCESSOR_ROOT
 
 # PATH CONSTANTS
 DATA_URL = "https://archive.ics.uci.edu/static/public/447/condition+monitoring+of+hydraulic+systems.zip"

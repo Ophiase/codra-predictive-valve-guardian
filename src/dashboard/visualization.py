@@ -7,7 +7,7 @@ def plot_cycle(
     ps2_cycle: np.ndarray,
     fs1_cycle: np.ndarray,
     cycle_idx: int,
-    prediction: bool = None,
+    prediction: bool | None = None,
 ):
     """Plot PS2 and FS1 signals for a specific cycle."""
     st.markdown(f"### Cycle {cycle_idx}")

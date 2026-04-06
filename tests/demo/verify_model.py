@@ -1,8 +1,12 @@
 import numpy as np
 
-from ..data.build_dataset import build_dataset
-from ..model.constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES
-from ..model.predictor import Predictor
+from processor.data.build_dataset import build_dataset
+from processor.model.constants import (
+    FEATURE_ORDER,
+    FFT_FEATURE_ENABLED,
+    K_FFT_FEATURES,
+)
+from processor.model.predictor import Predictor
 
 AUTHORIZED_LOSS_THRESHOLD = 0.1
 
@@ -18,9 +22,9 @@ def test_predictor() -> None:
     y_pred = predictor.predict_batch(X)
     loss = np.mean((y - y_pred) ** 2)
     print(f"Mean Squared Error: {loss}")
-    assert (
-        loss < AUTHORIZED_LOSS_THRESHOLD
-    ), f"Mean Squared Error should be less than {AUTHORIZED_LOSS_THRESHOLD}"
+    assert loss < AUTHORIZED_LOSS_THRESHOLD, (
+        f"Mean Squared Error should be less than {AUTHORIZED_LOSS_THRESHOLD}"
+    )
 
 
 if __name__ == "__main__":

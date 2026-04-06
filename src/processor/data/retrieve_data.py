@@ -1,4 +1,3 @@
-import os
 from pathlib import Path
 
 import requests
@@ -14,10 +13,10 @@ from .constants import (
 
 
 def download_data(url: str, destination: Path):
-    response = requests.get(url)
+    response = requests.get(url, timeout=30)
     response.raise_for_status()  # Ensure we notice bad responses
 
-    with open(destination, "wb") as file:
+    with Path(destination).open("wb") as file:
         file.write(response.content)
 
 
@@ -35,7 +34,7 @@ def retrieve_pipeline():
     zip_path = DATA_CACHE_PATH / "tmp_condition_monitoring_of_hydraulic_systems.zip"
     download_data(DATA_URL, zip_path)
     unzip_file(zip_path, DATA_HYDROLIC_PATH)
-    os.remove(zip_path)
+    Path(zip_path).unlink()
 
 
 def check_data_exists() -> bool:

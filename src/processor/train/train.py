@@ -17,7 +17,7 @@ def train_and_save():
         fft_feature=FFT_FEATURE_ENABLED,
         k_fft_features=K_FFT_FEATURES,
     )
-    X_train, y_train, X_test, y_test = split_dataset(X, y)
+    X_train, y_train, _, _ = split_dataset(X, y)
 
     print("Training model...")
     model = xgb.XGBClassifier(n_estimators=200, eval_metric="logloss", random_state=392)

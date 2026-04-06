@@ -1,14 +1,15 @@
-from typing import Optional
 
 import joblib
 import numpy as np
 
-from ..data.build_dataset import build_X
+from processor.data.build_dataset import build_X
+from processor.model.classifier_protocol import ClassifierProtocol
+
 from .constants import FEATURE_ORDER, FFT_FEATURE_ENABLED, K_FFT_FEATURES, MODEL_PATH
 
 
 class Predictor:
-    def __init__(self, model: Optional[object] = None):
+    def __init__(self, model: ClassifierProtocol | None = None):
         if model is None:
             self.model = joblib.load(MODEL_PATH)
         else:
